@@ -1,0 +1,149 @@
+<view class='form-container' style="background-image:url({{localBackground}});height:{{windowHeight}}px">
+  <view wx:if='{{!allFormOver}}'>
+  <!-- <view wx:if='{{false}}'> -->
+    <view class='meetJoin' wx:if="{{meetJoin}}">
+      <view class='form-title'>报名参会</view>
+      <text class='form-join'>是否参加会议?</text>
+      <button class='form-button' bindtap='ifJoin' data-num='{{1}}'>参加</button>
+      <!-- <button bindtap='ifJoin' data-num='{{0}}'>不参加</button> -->
+    </view>
+    <!-- <view wx:if="{{!isJoin&&!meetJoin}}">
+    您已经选择不参加此次活动
+  </view> -->
+    <!-- 表单页面 -->
+    <block wx:else>
+      <view class='basicQuestions' wx:if="{{isJoin}}">
+        <view class='form-title'>必要信息</view>
+        <scroll-view scroll-y style='height:{{windowHeight*.75}}px;'>
+          <form bindsubmit='basicFormSubmit'>
+            <view class='formQuestion'>
+              <view class='formItem'>
+                <image src='/imgs/form/name.png' />
+                <input name='name' class='form-input' placeholder="请输入您的姓名" confirm-type='done' auto-focus />
+              </view>
+            </view>
+            <view class='formQuestion'>
+              <view class='formItem'>
+                <image src='/imgs/form/phone.png' />
+                <input name='phone' class='form-input' placeholder="请输入您的手机号" type='number' confirm-type='done' />
+              </view>
+            </view>
+            <!-- 必要问里的自定义问题 -->
+            <!-- .... -->
+            <view wx:for='{{basicQuestions}}' wx:key='index'>
+
+              <view wx:if='{{item.type == "time"}}'>
+                <picker mode='date' value='{{bArr[index]}}' start="2019-03-01" end="2022-09-01" bindchange='basicDateChange' data-index='{{index}}' name='{{item.field}}'>
+                  <view class="formItem">
+                    {{item.question}}:{{bArr[index]}}
+                  </view>
+                </picker>
+              </view>
+
+              <view wx:elif='{{item.type=="text"}}' class='formQuestion'>
+                <view class='formItem'>
+                  <image src='/imgs/form/write.png' />
+                  <!-- 数字文本输入框 -->
+                  <input wx:if='{{item.model&&item.model =="number"}}' name='{{item.field}}' class='form-input' placeholder="{{item.question}}" confirm-type='done' type='{{item.model}}' auto-focus />
+                  <!-- 通用输入框 -->
+                  <input wx:else name='{{item.field}}' class='form-input' placeholder="{{item.question}}" confirm-type='done' auto-focus />
+                </view>
+              </view>
+
+              <view wx:elif='{{item.type == "radio"}}' class='radioQuestion'>
+                <view class='radioItem'>
+                  <view>{{item.question}}:</view>
+                  <radio-group class="radio-group" bindchange="basicRadioChange" data-radio='{{item.field}}' name='{{item.field}}'>
+                    <label class="radio" wx:for="{{item.radioValue}}" wx:key='rIndex'>
+                      <radio value="{{item}}" />{{item}}
+                    </label>
+                  </radio-group>
+                </view>
+              </view>
+
+              <view wx:elif='{{item.type == "checkbox"}}' class='checkboxQuestion'>
+                <view>{{item.question}}:</view>
+                <checkbox-group bindchange="checkboxChange" name='{{item.field}}'>
+                  <label class="checkbox" wx:for="{{item.checkboxValue}}" wx:key='{{cIndex}}'>
+                    <checkbox value="{{item}}" />{{item}}
+                  </label>
+                </checkbox-group>
+              </view>
+            </view>
+            <!-- .... -->
+            <button class='form-button' form-type='submit'>保存并下一步</button>
+          </form>
+        </scroll-view>
+      </view>
+
+      <view wx:else>
+        <view class='diyQuestion'>
+          <view class='form-title'>参会信息</view>
+
+          <view wx:if='{{isAsk}}'>
+            <view class='form-join'>{{form[formIndex].isSwitch}}</view>
+            <button bindtap='isNeed' data-need='{{1}}'>是</button>
+            <button bindtap='isNeed' data-need='{{0}}'>否</button>
+          </view>
+          <scroll-view scroll-y style='height:{{windowHeight*.75}}px;'>
+            <form bindsubmit='otherFormSubmit' wx:if='{{!isAsk && isNeed}}'>
+
+              <view class="section" wx:for='{{form[formIndex]}}' wx:key='index'>
+
+                <view class='formQuestion' wx:if='{{item.type == "text"}}'>
+                  <view class='formItem'>
+                    <image src='/imgs/form/write.png' />
+                    <!-- 数字文本输入框 -->
+                    <input wx:if='{{item.model && item.model =="number"}}' name='{{item.field}}' class='form-input' placeholder="{{item.question}}" confirm-type='done' type='{{item.model}}' auto-focus />
+                    <!-- 通用输入框 -->
+                    <input wx:else name='{{item.field}}' class='form-input' placeholder="{{item.question}}" confirm-type='done' auto-focus />
+                  </view>
+                </view>
+                <!-- picker:date输入框 -->
+                <block wx:elif='{{item.type == "time"}}' class='formQuestion'>
+                  <picker mode='date' value="{{bArr[index]}}" start="2019-03-01" end="2020-09-01" bindchange='basicDateChange' data-index='{{index}}' name='{{item.field}}'>
+                    <view class="formItem">
+                      {{item.question}}:{{bArr[index]}}
+                    </view>
+                  </picker>
+                </block>
+                <!-- radio单择框 -->
+                <view wx:elif='{{item.type == "radio"}}' class='radioQuestion'>
+                  <view class='radioItem'>
+                    <view>{{item.question}}</view>
+                    <radio-group class="radio-group" bindchange="firRadioChange" name='{{item.field}}'>
+                      <label class="radio" wx:for="{{item.radioValue}}" wx:key='index'>
+                        <radio value="{{item}}" /> {{item}}
+                      </label>
+                    </radio-group>
+                  </view>
+                </view>
+                <!-- checkbox多选框 -->
+                <view wx:elif='{{item.type == "checkbox"}}' class='checkboxQuestion'>
+                  <view>{{item.question}}:</view>
+                  <checkbox-group bindchange="checkboxChange" name='{{item.field}}'>
+                    <label class="checkbox" wx:for="{{item.checkboxValue}}" wx:key='{{cIndex}}'>
+                      <checkbox value="{{item}}" />{{item}}
+                    </label>
+                  </checkbox-group>
+                </view>
+              </view>
+              <button class='form-button' form-type='submit'>保存</button>
+            </form>
+          </scroll-view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:elif='{{allFormOver}}'>
+  <!-- <view wx:elif='{{true}}'> -->
+    <view class='form-success'>
+      <text class='join-success'>您的报名信息已提交</text>
+      <!-- <view class='success-info'>参会时间：;</view> -->
+
+      
+    </view>
+  </view>
+
+</view>

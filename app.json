@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/welcome/welcome",
+    "pages/form/form",
+    "pages/invitation/invitation",
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/process/process",
+    "pages/place/place",
+    "pages/test/test",
+    "pages/formSuccess/formSuccess"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#c9312a",
+    "navigationBarTitleText": "中国矿大—计算机学院",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/invitation/invitation",
+        "text": "邀请函",
+        "iconPath": "imgs/toolbar/invitation.png",
+        "selectedIconPath": "imgs/toolbar/invitation@select.png"
+      },
+      {
+        "pagePath": "pages/process/process",
+        "text": "会议议程",
+        "iconPath": "imgs/toolbar/process.png",
+        "selectedIconPath": "imgs/toolbar/process@select.png"
+      },
+      {
+        "pagePath": "pages/form/form",
+        "text": "报名信息",
+        "iconPath": "imgs/toolbar/form.png",
+        "selectedIconPath": "imgs/toolbar/form@select.png"
+      }
+    ],
+    "color": "#000000",
+    "selectedColor": "#d81e06",
+    "backgroundColor": "#fbe9b6",
+    "borderStyle": "white"
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  }
+}
