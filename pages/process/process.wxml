@@ -1,3 +1,0 @@
-<view class='container' style="background-image:url({{localBackground}});height:{{windowHeight}}px">
-<web-view src='https://coh5.cn/p/2b1d4387.html'></web-view>
-</view>

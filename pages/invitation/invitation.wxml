@@ -1,9 +1,0 @@
-<view class='container' style="background-image:url({{localBackground}});height:{{windowHeight}}px">
-  <text class='docTitle'>{{article.title}}</text>
-  <scroll-view scroll-y style='height:{{windowHeight*.75}}px;'>
-    <text class='docContent'>{{article.content}}</text>
-    <!-- 邀请信的样式处理 -->
-    <!-- <text class='docSign'>-{{article.writerSign}}</text> -->
-  </scroll-view>
-
-</view>
